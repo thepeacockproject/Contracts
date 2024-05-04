@@ -1,0 +1,219 @@
+{
+    "Data": {
+        "Objectives": [
+            {
+                "Type": "statemachine",
+                "Id": "ca9886ee-c6c8-43c5-a633-3b78cb45fa00",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 6240a1a1-f5ef-43b9-8665-7829fb0c0b52).Name"
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 6240a1a1-f5ef-43b9-8665-7829fb0c0b52).Name"
+                        }
+                    }
+                },
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "Context": {
+                        "Targets": [
+                            "6240a1a1-f5ef-43b9-8665-7829fb0c0b52"
+                        ]
+                    },
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "6240a1a1-f5ef-43b9-8665-7829fb0c0b52"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                "_comment": "----- Eliminate The Collector -----",
+                "Id": "03c76a68-d0ff-4b0e-a078-e6459d3c3f4b",
+                "Category": "primary",
+                "IsHidden": true,
+                "SuccessEvent": {
+                    "EventName": "Kill",
+                    "EventValues": {
+                        "RepositoryId": "6240a1a1-f5ef-43b9-8665-7829fb0c0b52"
+                    }
+                }
+            },
+            {
+                "_comment": "----- Retrieve the painting [Optional] -----",
+                "Id": "482570fd-949f-41c9-be77-922657dc6376",
+                "Category": "secondary",
+                "ForceShowOnLoadingScreen": true,
+                "IsHidden": false,
+                "ObjectiveType": "custom",
+                "Image": "images/contracts/elusive/s3_bramble/objective2.jpg",
+                "BriefingName": "$loc UI_CONTRACT_BRAMBLE_OBJ_PAINTING_TITLE",
+                "HUDTemplate": {
+                    "display": "$loc UI_CONTRACT_BRAMBLE_OBJ_PAINTING_TITLE",
+                    "iconType": 17
+                },
+                "BriefingText": "$loc UI_CONTRACT_BRAMBLE_OBJ_PAINTING_DESC",
+                "Type": "statemachine",
+                "Definition": {
+                    "States": {
+                        "Start": {
+                            "ItemPickedUp": {
+                                "Condition": {
+                                    "$eq": [
+                                        "$Value.RepositoryId",
+                                        "49853af0-d50b-4959-a446-15429b1f4530"
+                                    ]
+                                },
+                                "Transition": "Success"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_comment": "----- Silent objective to trigger escape -----",
+                "Id": "42718523-7c71-41e3-8e72-ae0ba6e13a47",
+                "Type": "statemachine",
+                "Category": "condition",
+                "ExcludeFromScoring": true,
+                "OnActive": {
+                    "IfInProgress": {
+                        "Visible": false
+                    },
+                    "IfCompleted": {
+                        "Visible": false
+                    },
+                    "IfFailed": {
+                        "Visible": false
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "Context": {},
+                    "States": {
+                        "Start": {
+                            "TargetEscapeStarted": {
+                                "Transition": "Success"
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                "_comment": "----- Target Escape -----",
+                "Activation": {
+                    "$eq": [
+                        "$42718523-7c71-41e3-8e72-ae0ba6e13a47",
+                        "Completed"
+                    ]
+                },
+                "Id": "9571d196-8d67-4d94-8dad-6e2d970d7a91",
+                "Category": "primary",
+                "ExcludeFromScoring": true,
+                "IgnoreIfInactive": true,
+                "OnActive": {
+                    "IfCompleted": {
+                        "Visible": false
+                    },
+                    "IfInProgress": {
+                        "Visible": true
+                    }
+                },
+                "BriefingText": "$loc UI_CONTRACT_BRAMBLE_FAIL_ESCAPE",
+                "HUDTemplate": {
+                    "display": "$loc UI_CONTRACT_BRAMBLE_OBJ_ESCAPE",
+                    "iconType": 8
+                },
+                "Type": "statemachine",
+                "Definition": {
+                    "Context": {},
+                    "States": {
+                        "Start": {
+                            "-": {
+                                "Transition": "Standby"
+                            }
+                        },
+                        "Standby": {
+                            "TargetEscapeStarted": {
+                                "Transition": "Escaping"
+                            }
+                        },
+                        "Escaping": {
+                            "Kill": {
+                                "Condition": {
+                                    "$eq": [
+                                        "$Value.RepositoryId",
+                                        "6240a1a1-f5ef-43b9-8665-7829fb0c0b52"
+                                    ]
+                                },
+                                "Transition": "Success"
+                            },
+                            "TargetEscaped": {
+                                "Transition": "Failure"
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "GameChangers": [],
+        "Bricks": [
+            "assembly:/_pro/scenes/missions/ancestral/elusive_bramble.brick"
+        ],
+        "Entrances": [
+            "0aec817c-738e-4381-bbd4-a13b5d1c6730",
+            "5314c86b-7173-412b-a0b5-b0d9af2da722",
+            "d4ec0c94-02b2-4aae-be9e-cbb5cc7d7e4a",
+            "3812ea57-e29c-42cb-b93a-ea2d3e6a6806"
+        ]
+    },
+    "Metadata": {
+        "Title": "Collector Test",
+        "Description": "I dunno what&apos;s going on",
+        "ScenePath": "assembly:/_pro/scenes/missions/ancestral/scene_bulldog.entity",
+        "Location": "LOCATION_ICA_FACILITY_ARRIVAL",
+        "IsPublished": true,
+        "CreatorUserId": "41d3e6b4-5d55-47d5-84d2-07fc1a8be6ff",
+        "GameVersion": "8.3.0.0",
+        "ServerVersion": "8.3.0.20",
+        "Type": "usercreated",
+        "Id": "6956b2f5-b6e5-4fd2-9ecf-a9f489b377cc",
+        "PublicId": "199770212204",
+        "TileImage": "$($repository 6240a1a1-f5ef-43b9-8665-7829fb0c0b52).Image",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "ca9886ee-c6c8-43c5-a633-3b78cb45fa00"
+            },
+            {
+                "Id": "03c76a68-d0ff-4b0e-a078-e6459d3c3f4b"
+            },
+            {
+                "Id": "482570fd-949f-41c9-be77-922657dc6376"
+            },
+            {
+                "Id": "42718523-7c71-41e3-8e72-ae0ba6e13a47"
+            },
+            {
+                "Id": "9571d196-8d67-4d94-8dad-6e2d970d7a91"
+            }
+        ],
+        "CreationTimestamp": "2021-03-31T04:37:20.5058887Z"
+    },
+    "UserData": {}
+}
