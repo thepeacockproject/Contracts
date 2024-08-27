@@ -4,6 +4,14 @@
 
 An open database of Hitman contracts, so they are not lost to time. Commits are automatic, no PRs please!
 
+## Featured Contracts
+Featured contracts are located in the `featured` folder. These are separated by game version.
+
+Almost all HITMAN 2 featured contracts are in HITMAN 3. So only the HITMAN 3 versions are stored within the HITMAN 2 folder, the entitlements will be translated by Peacock.
+
+## Releases
+Releases currently only contain featured contracts. There are currently no plans to package the contracts folder for release.
+
 ## Credits
 
 ![HITMAPS Logo](.github/hitmaps-logo.png)
