@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches: ["main"]
+    paths: ["featured/**/*.*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Create zip
+        run: git archive main -o featured.zip
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          prerelease: false
+          tag_name: ${{ steps.vars.outputs.sha_short }}
+          name: "Contracts ${{ steps.vars.outputs.sha_short }}"
+          files: featured.zip
