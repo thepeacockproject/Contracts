@@ -1,0 +1,328 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "26c876ee-06c0-44eb-95a7-91a40b4ff294",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "50356ca8-7372-4783-b143-31f2a2cd7c3d"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "50356ca8-7372-4783-b143-31f2a2cd7c3d"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 50356ca8-7372-4783-b143-31f2a2cd7c3d).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 50356ca8-7372-4783-b143-31f2a2cd7c3d).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "accident_suspended_object",
+                        "ObjectiveId": "8b5ebeeb-ad13-4992-9897-504c8fd93e53",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "8b5ebeeb-ad13-4992-9897-504c8fd93e53",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "50356ca8-7372-4783-b143-31f2a2cd7c3d"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "accident_suspended_object"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "50356ca8-7372-4783-b143-31f2a2cd7c3d"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "50356ca8-7372-4783-b143-31f2a2cd7c3d"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "cc4a5d6c-dd1c-4269-a2eb-28738efe7ad7"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "cc4a5d6c-dd1c-4269-a2eb-28738efe7ad7"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0,
+                        "LastItemDroppedTime": 0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            },
+            {
+                "Id": "261ec7b9-6c3b-4fc2-af0b-af894b8e04db",
+                "Type": "statemachine",
+                "Image": "images/actors/Llama_Diana_Burnwood.jpg",
+                "Category": "primary",
+                "_comment": "----- Do Not Eliminate Diana Burnwood -----",
+                "isHidden": "true",
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": {
+                                "Transition": "Success"
+                            }
+                        },
+                        "Success": {
+                            "Kill": {
+                                "Condition": {
+                                    "$eq": [
+                                        "$Value.RepositoryId",
+                                        "0e2111f1-d5ab-4a06-90ce-703abd6d3f91"
+                                    ]
+                                },
+                                "Transition": "Failure"
+                            }
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_LLAMA_DIANA_NAME",
+                "BriefingText": "$loc UI_CONTRACT_LLAMA_DIANA_NAME",
+                "ObjectiveType": "custom",
+                "ExcludeFromScoring": true,
+                "ForceShowOnLoadingScreen": false
+            }
+        ],
+        "GameChangers": [
+            "f96e94b7-1c0e-49c9-9332-07346a955fd2"
+        ]
+    },
+    "Metadata": {
+        "Id": "18495f6d-3bbd-44ad-af54-3a5e6d17d8a4",
+        "Type": "usercreated",
+        "Title": "Sorry Diana",
+        "Location": "LOCATION_ELEGANT_LLAMA",
+        "PublicId": "131416310673",
+        "ScenePath": "assembly:/_pro/scenes/missions/elegant/scene_llama.entity",
+        "TileImage": "$($repository 50356ca8-7372-4783-b143-31f2a2cd7c3d).Image",
+        "Description": "Good evening agents.\r\rThis assignment is a challenge. But with all your knowledge, it should be an easy one.\r\rGood luck Agent.",
+        "GameVersion": "8.19.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_ELEGANT"
+        ],
+        "CreatorUserId": "9d3a3a07-0018-4d24-a224-0a5f3bdaf3c8",
+        "ServerVersion": "8.19.0.71",
+        "CreationTimestamp": "2025-05-16T04:54:59.9184125Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "26c876ee-06c0-44eb-95a7-91a40b4ff294"
+            },
+            {
+                "Id": "8b5ebeeb-ad13-4992-9897-504c8fd93e53"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            },
+            {
+                "Id": "261ec7b9-6c3b-4fc2-af0b-af894b8e04db"
+            }
+        ]
+    }
+}
