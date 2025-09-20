@@ -1,0 +1,300 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "ef2fec8e-0442-42ca-9bd6-c2e048416540",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 8cd4f240-a0c0-4ff2-9b89-e90a875bda42).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 8cd4f240-a0c0-4ff2-9b89-e90a875bda42).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "381bf271-4fc7-41fa-a6bd-9ab8a3082b42",
+                        "RepositoryId": "58798f32-1293-4b2a-a7b7-94d504d3c395",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "sniperrifle",
+                        "ObjectiveId": "d5506533-e68c-42a1-8fe5-97c4e811acf6",
+                        "RepositoryId": "f301f605-007c-4fe1-aa99-a8cd2cae033f",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "381bf271-4fc7-41fa-a6bd-9ab8a3082b42",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "d5506533-e68c-42a1-8fe5-97c4e811acf6",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "sniperrifle"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "8cd4f240-a0c0-4ff2-9b89-e90a875bda42"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "primary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 218.2875061035156
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                            "data": "$formatstring 03:38"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 03:38"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 03:38"
+                    }
+                },
+                "ExcludeFromScoring": true
+            },
+            {
+                "Id": "261ec7b9-6c3b-4fc2-af0b-af894b8e04db",
+                "Type": "statemachine",
+                "Image": "images/actors/Llama_Diana_Burnwood.jpg",
+                "Category": "primary",
+                "_comment": "----- Do Not Eliminate Diana Burnwood -----",
+                "isHidden": "true",
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": {
+                                "Transition": "Success"
+                            }
+                        },
+                        "Success": {
+                            "Kill": {
+                                "Condition": {
+                                    "$eq": [
+                                        "$Value.RepositoryId",
+                                        "0e2111f1-d5ab-4a06-90ce-703abd6d3f91"
+                                    ]
+                                },
+                                "Transition": "Failure"
+                            }
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_LLAMA_DIANA_NAME",
+                "BriefingText": "$loc UI_CONTRACT_LLAMA_DIANA_NAME",
+                "ObjectiveType": "custom",
+                "ExcludeFromScoring": true,
+                "ForceShowOnLoadingScreen": false
+            }
+        ],
+        "GameChangers": [
+            "8618ebaa-f42b-42ce-be20-00d2b0a04897"
+        ]
+    },
+    "Metadata": {
+        "Id": "d8ffb701-25d8-445a-9b6a-2b1f9fe30deb",
+        "Type": "usercreated",
+        "Title": "Sabrina Carpenter",
+        "Location": "LOCATION_ELEGANT_LLAMA",
+        "PublicId": "131267147443",
+        "ScenePath": "assembly:/_pro/scenes/missions/elegant/scene_llama.entity",
+        "TileImage": "$($repository 8cd4f240-a0c0-4ff2-9b89-e90a875bda42).Image",
+        "Description": "Sabrina has changed, shes.... Indian. You cant let this fly. Kill her and end it\rOnly kill her and leave the innocent in peace.",
+        "GameVersion": "8.20.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_ELEGANT"
+        ],
+        "CreatorUserId": "10ca10f8-7b21-4e28-9beb-764ffdff6e63",
+        "ServerVersion": "8.20.0.76",
+        "CreationTimestamp": "2025-08-30T19:12:27.5358683Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "ef2fec8e-0442-42ca-9bd6-c2e048416540"
+            },
+            {
+                "Id": "381bf271-4fc7-41fa-a6bd-9ab8a3082b42"
+            },
+            {
+                "Id": "d5506533-e68c-42a1-8fe5-97c4e811acf6"
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4"
+            },
+            {
+                "Id": "261ec7b9-6c3b-4fc2-af0b-af894b8e04db"
+            }
+        ]
+    }
+}
