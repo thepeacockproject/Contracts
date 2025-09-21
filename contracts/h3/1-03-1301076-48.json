@@ -1,0 +1,263 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "36e479df-ffbc-4bfc-99c6-886b232ee1be",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 0dfaea51-3c36-4722-9eff-f1e7ef139878).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 0dfaea51-3c36-4722-9eff-f1e7ef139878).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "disguise",
+                        "KillMethod": "",
+                        "ObjectiveId": "0e608f34-e89b-408f-b8d4-1321e001c510",
+                        "RepositoryId": "10601c6b-1f65-44ed-92a1-bf843f023d3f",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "explosive",
+                        "ObjectiveId": "08c2596a-d162-4d0b-b28c-6f1512f01b44",
+                        "RepositoryId": "c95c55aa-34e5-42bd-bf27-32be3978b269",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "0e608f34-e89b-408f-b8d4-1321e001c510",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "10601c6b-1f65-44ed-92a1-bf843f023d3f"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "08c2596a-d162-4d0b-b28c-6f1512f01b44",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "explosive"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "0dfaea51-3c36-4722-9eff-f1e7ef139878"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 295.8849487304688
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 04:55"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 04:55"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 04:55"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "1f1f3c9e-1490-4fcc-aee6-5fde7c6c48ca"
+        ]
+    },
+    "Metadata": {
+        "Id": "36edb1e6-9fb3-4980-9192-5dad9b696c79",
+        "Type": "usercreated",
+        "Title": "Hole in None",
+        "Location": "LOCATION_COASTALTOWN",
+        "PublicId": "103130107648",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/CoastalTown/_scene_octopus.entity",
+        "TileImage": "$($repository 0dfaea51-3c36-4722-9eff-f1e7ef139878).Image",
+        "Description": "IAGO has uncovered some unsettling intel. Silvio Caruso had been diverting resources and funding towards improving his golf game, instead of running the laboratory. His lack of attention toward scientific pursuits is marked by his excesive taste in cigars. Dr. De Santis needs more funding for her lab in order to create an antidote to the memory erasing serum used by Providence.",
+        "GameVersion": "8.16.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_COASTALTOWN"
+        ],
+        "CreatorUserId": "e739bf12-0773-4480-a17b-253e5e7d6d31",
+        "ServerVersion": "8.15.0.63",
+        "CreationTimestamp": "2024-08-24T06:12:38.706852Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "36e479df-ffbc-4bfc-99c6-886b232ee1be"
+            },
+            {
+                "Id": "0e608f34-e89b-408f-b8d4-1321e001c510"
+            },
+            {
+                "Id": "08c2596a-d162-4d0b-b28c-6f1512f01b44"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    }
+}
