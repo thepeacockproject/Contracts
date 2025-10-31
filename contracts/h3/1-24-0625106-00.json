@@ -1,0 +1,302 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "c6bcd3d8-a2b0-4d5d-88d5-7232ca937bc5",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "eab30219-cd83-43ec-86c8-2be0e3e27119"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "eab30219-cd83-43ec-86c8-2be0e3e27119"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository eab30219-cd83-43ec-86c8-2be0e3e27119).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository eab30219-cd83-43ec-86c8-2be0e3e27119).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "killmethod_specificitem",
+                        "KillMethod": "throw",
+                        "ObjectiveId": "436f0129-99cc-42db-9c4f-3e9ea59ed5d0",
+                        "RepositoryId": "a83349bf-3d9c-43ec-92ee-c8c98cbeabc1",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "436f0129-99cc-42db-9c4f-3e9ea59ed5d0",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value.RepositoryId",
+                                                            "eab30219-cd83-43ec-86c8-2be0e3e27119"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$any": {
+                                                            "?": {
+                                                                "$eq": [
+                                                                    "$.#",
+                                                                    "throw"
+                                                                ]
+                                                            },
+                                                            "in": [
+                                                                "$Value.KillMethodBroad",
+                                                                "$Value.KillMethodStrict"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.KillItemRepositoryId",
+                                                    "a83349bf-3d9c-43ec-92ee-c8c98cbeabc1"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "eab30219-cd83-43ec-86c8-2be0e3e27119"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "eab30219-cd83-43ec-86c8-2be0e3e27119"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "07a71270-12ce-43a6-bd89-ff46cd196c6b"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "07a71270-12ce-43a6-bd89-ff46cd196c6b"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0.0,
+                        "LastItemDroppedTime": 0.0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": [
+            "9673f602-3b2a-4bd3-94b3-b3b311b7bc7e"
+        ]
+    },
+    "Metadata": {
+        "Id": "95da1b98-5c09-4495-9f96-d69caf14af28",
+        "Type": "usercreated",
+        "Title": "Let&apos;s Rise Together",
+        "Location": "LOCATION_GREEDY_RACCOON",
+        "PublicId": "124062510600",
+        "ScenePath": "assembly:/_pro/scenes/missions/Greedy/mission_raccoon/scene_raccoon_basic.entity",
+        "TileImage": "$($repository eab30219-cd83-43ec-86c8-2be0e3e27119).Image",
+        "Description": "Good evening agents.\r\rThis contract is different from the previous ones.\rHowever, you have accomplished many difficult contracts, so you should have no problem.\r\rGood luck Agent.",
+        "GameVersion": "8.19.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_GREEDY"
+        ],
+        "CreatorUserId": "0e75b20e-57e8-4d55-809d-a119b9e28da2",
+        "ServerVersion": "8.19.0.71",
+        "CreationTimestamp": "2025-05-15T12:19:06.1590094Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "c6bcd3d8-a2b0-4d5d-88d5-7232ca937bc5"
+            },
+            {
+                "Id": "436f0129-99cc-42db-9c4f-3e9ea59ed5d0"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            }
+        ]
+    },
+    "UserData": {}
+}
