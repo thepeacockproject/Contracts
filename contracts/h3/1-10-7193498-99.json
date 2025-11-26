@@ -1,0 +1,265 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "ea4579b8-71b7-418d-9bcf-4a192882512f",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository d4337324-b8ae-4299-b1d7-9a16d6b249d3).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository d4337324-b8ae-4299-b1d7-9a16d6b249d3).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "disguise",
+                        "KillMethod": "",
+                        "ObjectiveId": "bfde9ab8-a74c-435d-bc43-b0a48f9659ae",
+                        "RepositoryId": "44540c7c-fcbb-4de2-8983-523997584ed0",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "fiberwire",
+                        "ObjectiveId": "ad1ac001-60d1-4fcd-b53f-7a32411b1238",
+                        "RepositoryId": "1a11a060-358c-4054-98ec-d3491af1d7c6",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "bfde9ab8-a74c-435d-bc43-b0a48f9659ae",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "44540c7c-fcbb-4de2-8983-523997584ed0"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "ad1ac001-60d1-4fcd-b53f-7a32411b1238",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "fiberwire"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "d4337324-b8ae-4299-b1d7-9a16d6b249d3"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 60.00010299682617
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 01:00"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 01:00"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 01:00"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "008d2eb9-c1c8-44e0-a636-ccca63629f3c",
+            "95690829-7da4-4225-a087-08918cccf120"
+        ]
+    },
+    "Metadata": {
+        "Id": "701c20b4-1dec-4b12-b7f1-aec3821ef51b",
+        "Type": "usercreated",
+        "Title": "Shadows in the Snow",
+        "Location": "LOCATION_HOKKAIDO",
+        "PublicId": "110719349899",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/Hokkaido/_scene_snowcrane.entity",
+        "TileImage": "$($repository d4337324-b8ae-4299-b1d7-9a16d6b249d3).Image",
+        "Description": "Can I call this a sonko challenge?\r\n\r\n<HCCE>",
+        "GameVersion": "8.9.0.43",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_HOKKAIDO"
+        ],
+        "CreatorUserId": "b7e742e9-f341-4231-b9fa-d206bbf0b157",
+        "ServerVersion": "8.9.0.43",
+        "CreationTimestamp": "2022-08-01T11:52:56.3580043Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "ea4579b8-71b7-418d-9bcf-4a192882512f"
+            },
+            {
+                "Id": "bfde9ab8-a74c-435d-bc43-b0a48f9659ae"
+            },
+            {
+                "Id": "ad1ac001-60d1-4fcd-b53f-7a32411b1238"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    },
+    "UserData": {}
+}
