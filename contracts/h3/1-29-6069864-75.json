@@ -1,0 +1,295 @@
+{
+    "Data": {
+        "Bricks": [
+            "Assembly:/_PRO/Scenes/missions/edgy/mission_fox/fox_contractcreation.brick"
+        ],
+        "Objectives": [
+            {
+                "Id": "a3a43319-9c47-4335-b958-59ebd880e3f4",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "8d2f9b62-50d0-4bc8-afa0-5921642ca0d5"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "8d2f9b62-50d0-4bc8-afa0-5921642ca0d5"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 8d2f9b62-50d0-4bc8-afa0-5921642ca0d5).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 8d2f9b62-50d0-4bc8-afa0-5921642ca0d5).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "poison",
+                        "ObjectiveId": "f76bdf33-8888-47db-8a7a-e6e23e512a33",
+                        "RepositoryId": "af9ad679-6a7c-4f8e-9700-ceb5e6887666",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "f76bdf33-8888-47db-8a7a-e6e23e512a33",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "8d2f9b62-50d0-4bc8-afa0-5921642ca0d5"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "poison"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "8d2f9b62-50d0-4bc8-afa0-5921642ca0d5"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "8d2f9b62-50d0-4bc8-afa0-5921642ca0d5"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "ab772712-e76e-4e5c-a832-ffaf3776e2c5"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "ab772712-e76e-4e5c-a832-ffaf3776e2c5"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0.0,
+                        "LastItemDroppedTime": 0.0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": [
+            "1f8f0b8b-1f65-4d6c-a2f4-fc8adffa394a",
+            "8618ebaa-f42b-42ce-be20-00d2b0a04897"
+        ]
+    },
+    "Metadata": {
+        "Id": "4204209a-c0b6-4dca-ac87-15f0bd3d88e4",
+        "Type": "usercreated",
+        "Title": "Someone&apos;s got a grudge",
+        "Location": "LOCATION_EDGY_FOX",
+        "PublicId": "129606986475",
+        "ScenePath": "assembly:/_pro/scenes/missions/edgy/mission_fox/scene_fox_contractcreation.entity",
+        "TileImage": "$($repository 8d2f9b62-50d0-4bc8-afa0-5921642ca0d5).Image",
+        "Description": "Someone has got a grudge on this one specific guard in a club in Germany. Kill him in any way you like, 47.",
+        "GameVersion": "8.20.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_EDGY"
+        ],
+        "CreatorUserId": "6ce86ed8-72a7-46c9-9d5a-6f462f4e3255",
+        "ServerVersion": "8.20.0.76",
+        "CreationTimestamp": "2025-09-16T14:19:32.8508752Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "a3a43319-9c47-4335-b958-59ebd880e3f4"
+            },
+            {
+                "Id": "f76bdf33-8888-47db-8a7a-e6e23e512a33"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            }
+        ]
+    },
+    "UserData": {}
+}
