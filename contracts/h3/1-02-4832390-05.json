@@ -1,0 +1,265 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "ac55fafc-ab31-453e-a0f7-2759a79059a1",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "disguise",
+                        "KillMethod": "",
+                        "ObjectiveId": "0e1d73d5-73f0-4023-bd77-261d1a61294e",
+                        "RepositoryId": "69aac6db-461e-43af-89bc-2c27e50d430f",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "explosive",
+                        "ObjectiveId": "b5e5d978-5834-4a18-bc1c-fff3a9e97e7f",
+                        "RepositoryId": "c601c095-e1dc-4490-aeae-e8e200dd9ac8",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "0e1d73d5-73f0-4023-bd77-261d1a61294e",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "69aac6db-461e-43af-89bc-2c27e50d430f"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "b5e5d978-5834-4a18-bc1c-fff3a9e97e7f",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "explosive"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 3151.591552734375
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 52:31"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 52:31"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 52:31"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "f96e94b7-1c0e-49c9-9332-07346a955fd2",
+            "8618ebaa-f42b-42ce-be20-00d2b0a04897"
+        ]
+    },
+    "Metadata": {
+        "Id": "442a5bf6-15f1-4af7-9193-b50f5d1d3687",
+        "Type": "usercreated",
+        "Title": "To space he goes",
+        "Location": "LOCATION_PARIS",
+        "PublicId": "102483239005",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/Paris/_scene_paris.entity",
+        "TileImage": "$($repository 7a3222ff-ebd9-4dec-ae68-ca51f3e77b5b).Image",
+        "Description": "a big treat has been spotted in paris your job is to collect every explosive on the map and yeet the target to space do it as tech crew for them to think you were playing around and make sure that the target has a rough flight to space",
+        "GameVersion": "8.21.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_PARIS"
+        ],
+        "CreatorUserId": "e60d5c0d-0a7e-4c7c-8271-cf1a31f1dca8",
+        "ServerVersion": "8.21.0.79",
+        "CreationTimestamp": "2025-11-23T18:35:20.6845953Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "ac55fafc-ab31-453e-a0f7-2759a79059a1"
+            },
+            {
+                "Id": "0e1d73d5-73f0-4023-bd77-261d1a61294e"
+            },
+            {
+                "Id": "b5e5d978-5834-4a18-bc1c-fff3a9e97e7f"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    },
+    "UserData": {}
+}
