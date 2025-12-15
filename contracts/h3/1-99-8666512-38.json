@@ -1,0 +1,352 @@
+{
+    "Data": {
+        "Bricks": [
+            "assembly:/_PRO/Scenes/Missions/TheFacility/createcontract_module_002_b.brick"
+        ],
+        "Objectives": [
+            {
+                "Id": "cfe1162d-57bd-4d05-ad6a-84af749dd547",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "5c9a59eb-7dc4-4785-983f-7e411a755bab"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "5c9a59eb-7dc4-4785-983f-7e411a755bab"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 5c9a59eb-7dc4-4785-983f-7e411a755bab).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 5c9a59eb-7dc4-4785-983f-7e411a755bab).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "pistol",
+                        "ObjectiveId": "fce8f91a-515c-41f9-8345-7505d2977a4e",
+                        "RepositoryId": "73875794-5a86-410e-84a4-1b5b2f7e5a54",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "fce8f91a-515c-41f9-8345-7505d2977a4e",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "5c9a59eb-7dc4-4785-983f-7e411a755bab"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$or": [
+                                                            {
+                                                                "$eq": [
+                                                                    "$.#",
+                                                                    "pistol"
+                                                                ]
+                                                            },
+                                                            {
+                                                                "$eq": [
+                                                                    "$.#",
+                                                                    "close_combat_pistol_elimination"
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "5c9a59eb-7dc4-4785-983f-7e411a755bab"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "5c9a59eb-7dc4-4785-983f-7e411a755bab"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "da42316c-62e2-487b-a362-eb0d3d0f50d0"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "da42316c-62e2-487b-a362-eb0d3d0f50d0"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0.0,
+                        "LastItemDroppedTime": 0.0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": [
+            "f41f18fe-0fe5-416a-a793-50727e594655"
+        ],
+        "MandatoryLoadout": [
+            {
+                "Id": "FIREARMS_HERO_PISTOL_TACTICAL_ICA_19",
+                "Properties": {
+                    "LoadoutSlot": "concealedweapon",
+                    "RepositoryId": "73875794-5a86-410e-84a4-1b5b2f7e5a54"
+                }
+            },
+            {
+                "Id": "Melee_FiberWire_Descriptor",
+                "Properties": {
+                    "LoadoutSlot": "gear",
+                    "RepositoryId": "1a11a060-358c-4054-98ec-d3491af1d7c6"
+                }
+            },
+            {
+                "Id": "Tool_Coin",
+                "Properties": {
+                    "LoadoutSlot": "gear",
+                    "RepositoryId": "dda002e9-02b1-4208-82a5-cf059f3c79cf"
+                }
+            },
+            {
+                "Id": "Tool_Coin",
+                "Properties": {
+                    "LoadoutSlot": "gear",
+                    "RepositoryId": "dda002e9-02b1-4208-82a5-cf059f3c79cf"
+                }
+            },
+            {
+                "Id": "Tool_Coin",
+                "Properties": {
+                    "LoadoutSlot": "gear",
+                    "RepositoryId": "dda002e9-02b1-4208-82a5-cf059f3c79cf"
+                }
+            },
+            {
+                "Id": "Tool_Coin",
+                "Properties": {
+                    "LoadoutSlot": "gear",
+                    "RepositoryId": "dda002e9-02b1-4208-82a5-cf059f3c79cf"
+                }
+            },
+            {
+                "Id": "Tool_Coin",
+                "Properties": {
+                    "LoadoutSlot": "gear",
+                    "RepositoryId": "dda002e9-02b1-4208-82a5-cf059f3c79cf"
+                }
+            }
+        ]
+    },
+    "Metadata": {
+        "Id": "584437e1-7b45-47d7-a84c-56655afd114e",
+        "Type": "usercreated",
+        "Title": "SNIPER",
+        "Location": "LOCATION_ICA_FACILITY_SHIP",
+        "PublicId": "199866651238",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/TheFacility/_Scene_Mission_Polarbear_Module_002_B.entity",
+        "TileImage": "$($repository 5c9a59eb-7dc4-4785-983f-7e411a755bab).Image",
+        "Description": "SNIPER TRAINING.THE SHOT MUST BE TAKEN  FROMTHE ROOF.",
+        "GameVersion": "8.20.0.0",
+        "IsPublished": true,
+        "CreatorUserId": "e3c93b11-f63a-486a-b80b-eee31ff28d05",
+        "ServerVersion": "8.20.0.74",
+        "CreationTimestamp": "2025-06-09T06:21:33.3408178Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "cfe1162d-57bd-4d05-ad6a-84af749dd547"
+            },
+            {
+                "Id": "fce8f91a-515c-41f9-8345-7505d2977a4e"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            }
+        ]
+    },
+    "UserData": {}
+}
