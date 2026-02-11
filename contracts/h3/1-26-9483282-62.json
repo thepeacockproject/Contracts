@@ -1,0 +1,262 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "e47faf8c-6e43-4312-8ff4-1405447344ea",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "cee4e428-1efb-42ef-8eb5-763822781738"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "cee4e428-1efb-42ef-8eb5-763822781738"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository cee4e428-1efb-42ef-8eb5-763822781738).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository cee4e428-1efb-42ef-8eb5-763822781738).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "3834207f-d9a6-41b0-ab05-c9adc0308d04",
+                        "RepositoryId": "14f19447-5599-4bd2-82b5-20c02b1c46d7",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "accident_push",
+                        "ObjectiveId": "eecd814e-0c41-49ca-8f54-0f25d1f8d110",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "3834207f-d9a6-41b0-ab05-c9adc0308d04",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "cee4e428-1efb-42ef-8eb5-763822781738"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "cee4e428-1efb-42ef-8eb5-763822781738"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "cee4e428-1efb-42ef-8eb5-763822781738"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "eecd814e-0c41-49ca-8f54-0f25d1f8d110",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "cee4e428-1efb-42ef-8eb5-763822781738"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "accident_push"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "cee4e428-1efb-42ef-8eb5-763822781738"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "cee4e428-1efb-42ef-8eb5-763822781738"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "primary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 27.14348602294922
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                            "data": "$formatstring 00:27"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 00:27"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 00:27"
+                    }
+                },
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": []
+    },
+    "Metadata": {
+        "Id": "c60b4f00-1a49-4b77-9f33-fe3760da0625",
+        "Type": "usercreated",
+        "Title": "击杀命令 ： 1-26-9483282-62",
+        "Location": "LOCATION_OPULENT_STINGRAY",
+        "PublicId": "126948328262",
+        "ScenePath": "assembly:/_pro/scenes/missions/Opulent/mission_stingray/scene_stingray_basic.entity",
+        "TileImage": "$($repository cee4e428-1efb-42ef-8eb5-763822781738).Image",
+        "Description": "契约已发布，你已获得行动许可。尽可能干净利落地消灭所有目标，避免一切连带伤害。",
+        "GameVersion": "8.22.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_OPULENT"
+        ],
+        "CreatorUserId": "d8ca1ac1-c537-41ad-86e6-72db3b9d4740",
+        "ServerVersion": "8.22.0.83",
+        "CreationTimestamp": "2025-12-21T10:00:32.3339415Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "e47faf8c-6e43-4312-8ff4-1405447344ea"
+            },
+            {
+                "Id": "3834207f-d9a6-41b0-ab05-c9adc0308d04"
+            },
+            {
+                "Id": "eecd814e-0c41-49ca-8f54-0f25d1f8d110"
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4"
+            }
+        ]
+    },
+    "UserData": {}
+}
