@@ -1,0 +1,282 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "bdea0a1b-ff54-47fe-aed3-5d4161c0857d",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "5561ba7b-91a6-4403-a351-227015f67c2f"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "5561ba7b-91a6-4403-a351-227015f67c2f"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 5561ba7b-91a6-4403-a351-227015f67c2f).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 5561ba7b-91a6-4403-a351-227015f67c2f).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "disguise",
+                        "KillMethod": "",
+                        "ObjectiveId": "a0de83f6-1f80-47d8-b29d-31a9eff4fb07",
+                        "RepositoryId": "10b47b82-aa17-4ac7-b028-bee1ac27f976",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "a0de83f6-1f80-47d8-b29d-31a9eff4fb07",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "5561ba7b-91a6-4403-a351-227015f67c2f"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "10b47b82-aa17-4ac7-b028-bee1ac27f976"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "5561ba7b-91a6-4403-a351-227015f67c2f"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "5561ba7b-91a6-4403-a351-227015f67c2f"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "3ecfa8cd-1904-4001-9012-a44457d6b1ae"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "3ecfa8cd-1904-4001-9012-a44457d6b1ae"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0.0,
+                        "LastItemDroppedTime": 0.0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": []
+    },
+    "Metadata": {
+        "Id": "1263db22-872b-47a9-bfb0-58d44512fffe",
+        "Type": "usercreated",
+        "Title": "Patient Zero Requiem pt3",
+        "Location": "LOCATION_HOKKAIDO_MAMUSHI",
+        "PublicId": "137681799255",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/Hokkaido/scene_mamushi.entity",
+        "TileImage": "$($repository 5561ba7b-91a6-4403-a351-227015f67c2f).Image",
+        "Description": "Hello 47, when searching Lilith Devereux&#39;s phone we found many messages to this &quot;nails&quot; person, it seems like she was using him as a helicopter pilot, the messages sent by Nails shows that he is a member of the cult, and has infection serum on him incase of Lilith&#39;s death, fortunately Nails hasn&#39;t heard of Lilith&#39;s death yet and hasn&#39;t infected himself or anyone, right now he is in Hokkaido at the Gama Facility, working as their helicopter pilot, Eliminate him and take his helicopter, as we have proof of him carrying virus samples in the helicopter, after you take the helicopter fly it to my contact. They will destroy the samples, Good luck, 47. I will leave you to prepare.\r\n\r\nExit: Helicopter\r\n<HCCE>",
+        "GameVersion": "8.23.0.86",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_HOKKAIDO"
+        ],
+        "CreatorUserId": "e55f10ee-c8b8-408c-8daf-3150ce0cfa6b",
+        "ServerVersion": "8.23.0.86",
+        "CreationTimestamp": "2026-02-26T16:23:11.725821Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "bdea0a1b-ff54-47fe-aed3-5d4161c0857d"
+            },
+            {
+                "Id": "a0de83f6-1f80-47d8-b29d-31a9eff4fb07"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            }
+        ]
+    },
+    "UserData": {}
+}
