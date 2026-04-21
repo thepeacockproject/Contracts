@@ -1,0 +1,300 @@
+{
+    "Data": {
+        "Bricks": [
+            "assembly:/_PRO/Scenes/Missions/Hokkaido/contractcreation_flu.brick"
+        ],
+        "Entrances": [
+            "8faca318-7c93-4abd-9ee3-f3c0c1577d77"
+        ],
+        "Objectives": [
+            {
+                "Id": "b1dc6494-7335-441a-aa34-5c75b936b944",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "d895f323-64b6-4e55-8c75-e84cd3a48a53"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "d895f323-64b6-4e55-8c75-e84cd3a48a53"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository d895f323-64b6-4e55-8c75-e84cd3a48a53).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository d895f323-64b6-4e55-8c75-e84cd3a48a53).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "sniperrifle",
+                        "ObjectiveId": "df37198d-e0d7-4998-96ac-8cf95c8a118a",
+                        "RepositoryId": "f9d471fc-a3d0-49bd-8e2d-af7fb8cedf6f",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "df37198d-e0d7-4998-96ac-8cf95c8a118a",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "d895f323-64b6-4e55-8c75-e84cd3a48a53"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "sniperrifle"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "d895f323-64b6-4e55-8c75-e84cd3a48a53"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "d895f323-64b6-4e55-8c75-e84cd3a48a53"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "d18218c4-5433-4905-8cd3-2a85014936e2"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "d18218c4-5433-4905-8cd3-2a85014936e2"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0.0,
+                        "LastItemDroppedTime": 0.0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            }
+        ],
+        "Stashpoints": [
+            "73d4bcd4-ec9f-4a6c-ae2d-1248109eadc3"
+        ],
+        "GameChangers": [
+            "95690829-7da4-4225-a087-08918cccf120"
+        ]
+    },
+    "Metadata": {
+        "Id": "2ae54750-1084-472f-a63c-68b0b8ffed02",
+        "Type": "usercreated",
+        "Title": "An unspecified elemination",
+        "Location": "LOCATION_HOKKAIDO_FLU",
+        "PublicId": "118823001328",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/Hokkaido/_scene_flu.entity",
+        "TileImage": "$($repository d895f323-64b6-4e55-8c75-e84cd3a48a53).Image",
+        "Description": "The client said he needed to be taken care of. No reason. He probably did something wrong. I recommend you go long for this one, but you don&apos;t have to. Oh yeah, and the client is a bad rock climber, so show him how it&apos;s done. And also, there is some kind of virus called Divoc-91, I think it&apos;s still live so a little warning on that. Try not to kill anyone (keyword: try). Killing this man is pretty easy. Cameras show he likes chilling at the garden so you can find him there. By the way I like men",
+        "GameVersion": "8.16.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "H1_LEGACY_EXPANSION"
+        ],
+        "CreatorUserId": "33772490-df3e-46ee-bd37-737f4e928e58",
+        "ServerVersion": "8.15.0.62",
+        "CreationTimestamp": "2024-07-08T14:04:16.7163324Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "b1dc6494-7335-441a-aa34-5c75b936b944"
+            },
+            {
+                "Id": "df37198d-e0d7-4998-96ac-8cf95c8a118a"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            }
+        ]
+    },
+    "UserData": {}
+}
