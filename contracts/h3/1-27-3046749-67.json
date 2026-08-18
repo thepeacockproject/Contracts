@@ -1,0 +1,268 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "2f74e8fb-778c-42c5-81e4-70eea4e7dc88",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 44bd3e9f-76ce-4bb7-aaa9-8127f2e86667).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 44bd3e9f-76ce-4bb7-aaa9-8127f2e86667).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "ef44341c-1541-4f06-bab2-db077319b177",
+                        "RepositoryId": "5a77f988-62b8-4414-bd8f-b47fd457d0bd",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "accident_drown",
+                        "ObjectiveId": "7ad20f13-ea21-4dda-8d31-36d36cd5adf5",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "ef44341c-1541-4f06-bab2-db077319b177",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "7ad20f13-ea21-4dda-8d31-36d36cd5adf5",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "accident_drown"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "44bd3e9f-76ce-4bb7-aaa9-8127f2e86667"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 165.48040771484375
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 02:45"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 02:45"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 02:45"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "b48bb7f9-b630-48cb-a816-720ed7959319",
+            "95690829-7da4-4225-a087-08918cccf120",
+            "1f8f0b8b-1f65-4d6c-a2f4-fc8adffa394a",
+            "8618ebaa-f42b-42ce-be20-00d2b0a04897",
+            "008d2eb9-c1c8-44e0-a636-ccca63629f3c"
+        ]
+    },
+    "Metadata": {
+        "Id": "9c814cb4-a165-434a-a84f-df9da39b4613",
+        "Type": "usercreated",
+        "Title": "The Toilet snorkler",
+        "Location": "LOCATION_GOLDEN_GECKO",
+        "PublicId": "127304674967",
+        "ScenePath": "assembly:/_pro/scenes/missions/golden/mission_gecko/scene_gecko_basic.entity",
+        "TileImage": "$($repository 44bd3e9f-76ce-4bb7-aaa9-8127f2e86667).Image",
+        "Description": "Your target is Shaaf Abdul.\rHe made millions with the Pretzel industry and he has a dark secret: He uses opium in his food to make his customers addicted.\r\rMake his last day a shitty one and take that literally.\r\rGood luck!",
+        "GameVersion": "8.5.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_GOLDEN"
+        ],
+        "CreatorUserId": "32438dca-db89-4079-8d44-2a2008730453",
+        "ServerVersion": "8.5.0.27",
+        "CreationTimestamp": "2021-07-07T12:58:45.9093431Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "2f74e8fb-778c-42c5-81e4-70eea4e7dc88"
+            },
+            {
+                "Id": "ef44341c-1541-4f06-bab2-db077319b177"
+            },
+            {
+                "Id": "7ad20f13-ea21-4dda-8d31-36d36cd5adf5"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    },
+    "UserData": {}
+}
