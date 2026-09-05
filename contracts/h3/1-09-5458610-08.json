@@ -1,0 +1,265 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "bac65d28-47e5-46f8-993b-ff68b5904378",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository e26960bc-a980-42f7-ba98-3b52b42264ce).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository e26960bc-a980-42f7-ba98-3b52b42264ce).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "disguise",
+                        "KillMethod": "",
+                        "ObjectiveId": "ce8127c0-3921-4f08-832a-0fdd9c7c0373",
+                        "RepositoryId": "143c62fc-4bf6-474a-9542-1e81bf93a044",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "accident_suspended_object",
+                        "ObjectiveId": "82977768-f095-4399-a68a-e8d81b6b93b8",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "ce8127c0-3921-4f08-832a-0fdd9c7c0373",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "143c62fc-4bf6-474a-9542-1e81bf93a044"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "82977768-f095-4399-a68a-e8d81b6b93b8",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "accident_suspended_object"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "e26960bc-a980-42f7-ba98-3b52b42264ce"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "primary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 38.23363494873047
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                            "data": "$formatstring 00:38"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 00:38"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 00:38"
+                    }
+                },
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": [
+            "9f409781-0a06-4748-b08d-784e78c6d481",
+            "fd37b209-4e11-461e-a11f-394c92fbbe80"
+        ]
+    },
+    "Metadata": {
+        "Id": "955c84df-8893-45fb-a534-cfd034e233e9",
+        "Type": "usercreated",
+        "Title": "Mechanic Failure",
+        "Location": "LOCATION_COLORADO",
+        "PublicId": "109545861008",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/Colorado_2/_scene_bull.entity",
+        "TileImage": "$($repository e26960bc-a980-42f7-ba98-3b52b42264ce).Image",
+        "Description": "A contract has been issued, and you have been cleared to engage. Eliminate any targets as cleanly as possible, avoiding collateral damage as far as possible.",
+        "GameVersion": "8.25.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_COLORADO"
+        ],
+        "CreatorUserId": "c87abba8-3712-4e8a-852b-e486ed68599d",
+        "ServerVersion": "8.25.0.94",
+        "CreationTimestamp": "2026-09-04T23:12:32.5200859Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "bac65d28-47e5-46f8-993b-ff68b5904378"
+            },
+            {
+                "Id": "ce8127c0-3921-4f08-832a-0fdd9c7c0373"
+            },
+            {
+                "Id": "82977768-f095-4399-a68a-e8d81b6b93b8"
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4"
+            }
+        ]
+    },
+    "UserData": {}
+}
