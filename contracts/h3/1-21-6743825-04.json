@@ -1,0 +1,265 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "957921cf-eb74-4d88-b27b-bcabb15df9d8",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 29d714f2-3caf-4253-a9df-8b47e0b2b9be).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 29d714f2-3caf-4253-a9df-8b47e0b2b9be).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "eeb1a85e-1e06-4d4e-b10e-47bb0e2b0233",
+                        "RepositoryId": "3ff21e5c-5ec2-4868-903b-e7564c587aa7",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "injected_poison",
+                        "ObjectiveId": "03a2556f-c96d-4d28-b85b-432f90c42d9e",
+                        "RepositoryId": "cdc20ebf-cd83-4707-8732-913c0f970cb5",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "eeb1a85e-1e06-4d4e-b10e-47bb0e2b0233",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "03a2556f-c96d-4d28-b85b-432f90c42d9e",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "injected_poison"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "29d714f2-3caf-4253-a9df-8b47e0b2b9be"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 203.41433715820313
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 03:23"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 03:23"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 03:23"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "95690829-7da4-4225-a087-08918cccf120",
+            "008d2eb9-c1c8-44e0-a636-ccca63629f3c"
+        ]
+    },
+    "Metadata": {
+        "Id": "ecd240f2-cf7d-4f75-b98d-fbc78e77947d",
+        "Type": "usercreated",
+        "Title": "Lunch Thief",
+        "Location": "LOCATION_NORTHSEA",
+        "PublicId": "121674382504",
+        "ScenePath": "assembly:/_pro/scenes/missions/theark/scene_magpie.entity",
+        "TileImage": "$($repository 29d714f2-3caf-4253-a9df-8b47e0b2b9be).Image",
+        "Description": "This guy ate your fried rice out of the fridge at work",
+        "GameVersion": "8.17.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_NORTHSEA"
+        ],
+        "CreatorUserId": "e31cf37c-b36c-4756-b4e9-e92cbd02803a",
+        "ServerVersion": "8.17.0.66",
+        "CreationTimestamp": "2024-11-21T23:50:32.7756018Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "957921cf-eb74-4d88-b27b-bcabb15df9d8"
+            },
+            {
+                "Id": "eeb1a85e-1e06-4d4e-b10e-47bb0e2b0233"
+            },
+            {
+                "Id": "03a2556f-c96d-4d28-b85b-432f90c42d9e"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    },
+    "UserData": {}
+}
