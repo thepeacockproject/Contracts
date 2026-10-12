@@ -1,0 +1,290 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "8c45663b-8a0b-4ed4-b1e4-4f6c87e093fa",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "ca2b390f-b759-40cb-af2b-c4b86e35f806"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "ca2b390f-b759-40cb-af2b-c4b86e35f806"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository ca2b390f-b759-40cb-af2b-c4b86e35f806).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository ca2b390f-b759-40cb-af2b-c4b86e35f806).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "accident_electric",
+                        "ObjectiveId": "7f0404f5-523d-4126-b666-89a66ef60dcd",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "7f0404f5-523d-4126-b666-89a66ef60dcd",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "ca2b390f-b759-40cb-af2b-c4b86e35f806"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "accident_electric"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "ca2b390f-b759-40cb-af2b-c4b86e35f806"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "ca2b390f-b759-40cb-af2b-c4b86e35f806"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb",
+                "Type": "statemachine",
+                "Exits": [
+                    "72a215e3-6307-46f4-87ac-f7f91e6b680a"
+                ],
+                "Image": "images/contractconditions/condition_contrac_required_exit.jpg",
+                "Category": "primary",
+                "ShowInHud": false,
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "-": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        },
+                        "Success": {
+                            "Kill": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastKillTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "Exited",
+                                            true
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemThrown": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemDropped": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ExitDisabled": [
+                                {
+                                    "Condition": {
+                                        "$or": [
+                                            {
+                                                "$and": [
+                                                    {
+                                                        "$eq": [
+                                                            "$Value",
+                                                            "72a215e3-6307-46f4-87ac-f7f91e6b680a"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$eq": [
+                                                            "$.Exited",
+                                                            false
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$not": {
+                                                            "$eq": [
+                                                                "$.LastItemDroppedTime",
+                                                                "$Timestamp"
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$.LastKillTime",
+                                                    "$Timestamp"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "ExitInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "TaxiDriverDistracted": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "ItemRemovedFromInventory": [
+                                {
+                                    "Actions": {
+                                        "$set": [
+                                            "LastItemDroppedTime",
+                                            "$Timestamp"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Exited": false,
+                        "LastKillTime": 0.0,
+                        "LastItemDroppedTime": 0.0
+                    }
+                },
+                "HUDTemplate": {
+                    "display": "$loc $loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC"
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_NAME",
+                "BriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ObjectiveType": "custom",
+                "LongBriefingText": "$loc UI_CONTRACT_UGC_REQUIRED_EXIT_DESC",
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": []
+    },
+    "Metadata": {
+        "Id": "9e4554bf-0fec-4a8a-95a9-67760557da11",
+        "Type": "usercreated",
+        "Title": "Crocodile Dundee",
+        "Location": "LOCATION_OPULENT_STINGRAY",
+        "PublicId": "126102248288",
+        "ScenePath": "assembly:/_pro/scenes/missions/Opulent/mission_stingray/scene_stingray_basic.entity",
+        "TileImage": "$($repository ca2b390f-b759-40cb-af2b-c4b86e35f806).Image",
+        "Description": "Pop 18 (or all 19) inflatable crocs IN ANY ORDER\r\r2 = Resort Pool\r2 = Villa Pool\r8 = Scuba Hut - 2 in the Hut, +4 outside leaning against stack of boats, +1 under the outside table, +1 on stack of 3 boats (not needed but why not)\r1 = Lion Fish Hut, outside on deck\r2 = doctor&apos;s hut (Manta Ray), pool area, 1 in pool, +1 leaning against the glass doors\r1 = near the Restaurant Beach, under the deck on a stack of 3 boats\r3 = on the Beach, 1 at water&apos;s edge, +2 near deck chairs\r\rFloat away. Ca-caw!",
+        "GameVersion": "8.25.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_OPULENT"
+        ],
+        "CreatorUserId": "1cbd9794-cb31-470c-81ee-e7997ae6760f",
+        "ServerVersion": "8.25.0.95",
+        "CreationTimestamp": "2026-10-06T04:56:19.2398753Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "8c45663b-8a0b-4ed4-b1e4-4f6c87e093fa"
+            },
+            {
+                "Id": "7f0404f5-523d-4126-b666-89a66ef60dcd"
+            },
+            {
+                "Id": "05080d1d-e3c4-4960-a087-661d141363eb"
+            }
+        ]
+    },
+    "UserData": {}
+}
