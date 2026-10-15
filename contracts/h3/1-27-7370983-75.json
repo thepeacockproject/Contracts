@@ -1,0 +1,266 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "75977808-3933-4956-b301-5bfe87671cc1",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "e591c642-79f2-4aff-8c51-184889b76594"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "e591c642-79f2-4aff-8c51-184889b76594"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository e591c642-79f2-4aff-8c51-184889b76594).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository e591c642-79f2-4aff-8c51-184889b76594).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "08f6f97b-d32c-48a0-902b-79e133c7df38",
+                        "RepositoryId": "07ab08e1-013e-439d-a98b-3b7e8c9f13bc",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "unarmed",
+                        "ObjectiveId": "7f1a1b54-7376-48b5-9a6c-3aae57212dc6",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "08f6f97b-d32c-48a0-902b-79e133c7df38",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "e591c642-79f2-4aff-8c51-184889b76594"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "e591c642-79f2-4aff-8c51-184889b76594"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "e591c642-79f2-4aff-8c51-184889b76594"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "7f1a1b54-7376-48b5-9a6c-3aae57212dc6",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "e591c642-79f2-4aff-8c51-184889b76594"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "unarmed"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "e591c642-79f2-4aff-8c51-184889b76594"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "e591c642-79f2-4aff-8c51-184889b76594"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "primary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 328.72918701171875
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                            "data": "$formatstring 05:28"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 05:28"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 05:28"
+                    }
+                },
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": [
+            "fd37b209-4e11-461e-a11f-394c92fbbe80",
+            "f41f18fe-0fe5-416a-a793-50727e594655",
+            "008d2eb9-c1c8-44e0-a636-ccca63629f3c"
+        ]
+    },
+    "Metadata": {
+        "Id": "b38dfa39-564f-4cdd-b318-f4905c1c4446",
+        "Type": "usercreated",
+        "Title": "the easiest target",
+        "Location": "LOCATION_GOLDEN_GECKO",
+        "PublicId": "127737098375",
+        "ScenePath": "assembly:/_pro/scenes/missions/golden/mission_gecko/scene_gecko_basic.entity",
+        "TileImage": "$($repository e591c642-79f2-4aff-8c51-184889b76594).Image",
+        "Description": "If u cant to this in time I have nothing to say to you.",
+        "GameVersion": "8.8.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_GOLDEN"
+        ],
+        "CreatorUserId": "0006f1b9-4961-402d-911c-0f12fd758fc4",
+        "ServerVersion": "8.8.0.42",
+        "CreationTimestamp": "2022-07-24T20:19:26.8769183Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "75977808-3933-4956-b301-5bfe87671cc1"
+            },
+            {
+                "Id": "08f6f97b-d32c-48a0-902b-79e133c7df38"
+            },
+            {
+                "Id": "7f1a1b54-7376-48b5-9a6c-3aae57212dc6"
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4"
+            }
+        ]
+    },
+    "UserData": {}
+}
