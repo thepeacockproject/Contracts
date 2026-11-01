@@ -1,0 +1,267 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "81d197ce-b147-400f-ac9f-e90ea9fbd38f",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "80051c02-e026-40fe-970a-7b7aaa62302c"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "80051c02-e026-40fe-970a-7b7aaa62302c"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 80051c02-e026-40fe-970a-7b7aaa62302c).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 80051c02-e026-40fe-970a-7b7aaa62302c).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "63185a24-66d7-4a1a-9dc8-5495d55b0c45",
+                        "RepositoryId": "28a530f3-ceb7-4541-aed1-a288ac207a43",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "fiberwire",
+                        "ObjectiveId": "0b21ca31-77be-49ba-885d-5a5a849bfa7a",
+                        "RepositoryId": "a804e004-7d45-42c8-87bd-b7cbcffa56cc",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "63185a24-66d7-4a1a-9dc8-5495d55b0c45",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "80051c02-e026-40fe-970a-7b7aaa62302c"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "80051c02-e026-40fe-970a-7b7aaa62302c"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "80051c02-e026-40fe-970a-7b7aaa62302c"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "0b21ca31-77be-49ba-885d-5a5a849bfa7a",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "80051c02-e026-40fe-970a-7b7aaa62302c"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "fiberwire"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "80051c02-e026-40fe-970a-7b7aaa62302c"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "80051c02-e026-40fe-970a-7b7aaa62302c"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 216.80947875976563
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 03:36"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 03:36"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 03:36"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "008d2eb9-c1c8-44e0-a636-ccca63629f3c",
+            "8618ebaa-f42b-42ce-be20-00d2b0a04897",
+            "b48bb7f9-b630-48cb-a816-720ed7959319",
+            "1f8f0b8b-1f65-4d6c-a2f4-fc8adffa394a"
+        ]
+    },
+    "Metadata": {
+        "Id": "d26f63a6-5192-4f29-9978-f65d74fc54d2",
+        "Type": "usercreated",
+        "Title": "The Kashmirians Private Dresser",
+        "Location": "LOCATION_MUMBAI",
+        "PublicId": "113322970479",
+        "ScenePath": "assembly:/_PRO/Scenes/Missions/Mumbai/scene_mongoose.entity",
+        "TileImage": "$($repository 80051c02-e026-40fe-970a-7b7aaa62302c).Image",
+        "Description": "The Kashmirian has planned a hit on our client.",
+        "GameVersion": "8.24.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_MUMBAI"
+        ],
+        "CreatorUserId": "0d012fe8-05f9-424a-89ad-829f7ca5b893",
+        "ServerVersion": "8.24.0.90",
+        "CreationTimestamp": "2026-06-28T11:40:05.1227689Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "81d197ce-b147-400f-ac9f-e90ea9fbd38f"
+            },
+            {
+                "Id": "63185a24-66d7-4a1a-9dc8-5495d55b0c45"
+            },
+            {
+                "Id": "0b21ca31-77be-49ba-885d-5a5a849bfa7a"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    },
+    "UserData": {}
+}
