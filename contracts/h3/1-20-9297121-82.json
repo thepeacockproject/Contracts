@@ -1,0 +1,264 @@
+{
+    "Data": {
+        "Bricks": [
+            "assembly:/_pro/scenes/missions/sheep/override_skipintro.brick"
+        ],
+        "Objectives": [
+            {
+                "Id": "93e5fff1-c929-42c1-ac89-8f78d5ea0a0b",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository 71d833e8-5f8d-4cd5-8dc8-48d5097f71e9).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository 71d833e8-5f8d-4cd5-8dc8-48d5097f71e9).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "hitmansuit",
+                        "KillMethod": "",
+                        "ObjectiveId": "797c9a0e-96a0-4869-9eae-0c945c18c1af",
+                        "RepositoryId": "4fc9396e-2619-4e66-a51e-2bd366230da7",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "accident_push",
+                        "ObjectiveId": "4321b02a-3db0-46c9-90b5-8a0a577927ed",
+                        "RepositoryId": "00000000-0000-0000-0000-000000000000",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "797c9a0e-96a0-4869-9eae-0c945c18c1af",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitIsHitmanSuit",
+                                                    true
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "4321b02a-3db0-46c9-90b5-8a0a577927ed",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "accident_push"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "71d833e8-5f8d-4cd5-8dc8-48d5097f71e9"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "primary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 126.75545501708984
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                            "data": "$formatstring 02:06"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 02:06"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_PRIMARY_DESC",
+                        "data": "$formatstring 02:06"
+                    }
+                },
+                "ExcludeFromScoring": true
+            }
+        ],
+        "GameChangers": []
+    },
+    "Metadata": {
+        "Id": "aa45fccf-a24c-430b-83a5-597c582511a1",
+        "Type": "usercreated",
+        "Title": "击杀命令 ： 1-20-9297121-82",
+        "Location": "LOCATION_NEWZEALAND",
+        "PublicId": "120929712182",
+        "ScenePath": "assembly:/_pro/scenes/missions/sheep/scene_sheep.entity",
+        "TileImage": "$($repository 71d833e8-5f8d-4cd5-8dc8-48d5097f71e9).Image",
+        "Description": "目标跌落",
+        "GameVersion": "8.26.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_NEWZEALAND"
+        ],
+        "CreatorUserId": "e64fc925-2868-4ff2-965f-01893de979ab",
+        "ServerVersion": "8.26.0.96",
+        "CreationTimestamp": "2026-11-10T00:03:38.3563262Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "93e5fff1-c929-42c1-ac89-8f78d5ea0a0b"
+            },
+            {
+                "Id": "797c9a0e-96a0-4869-9eae-0c945c18c1af"
+            },
+            {
+                "Id": "4321b02a-3db0-46c9-90b5-8a0a577927ed"
+            },
+            {
+                "Id": "3d6f9119-7ec8-496f-ab4c-ed9757d976a4"
+            }
+        ]
+    },
+    "UserData": {}
+}
