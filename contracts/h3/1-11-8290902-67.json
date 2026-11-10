@@ -1,0 +1,265 @@
+{
+    "Data": {
+        "Bricks": [],
+        "Objectives": [
+            {
+                "Id": "9aebe278-bcff-45ef-8ad2-f6dc288a7cfb",
+                "Type": "statemachine",
+                "Category": "primary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                        ]
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                            "data": "$($repository f2c03083-8ac4-4daa-82b2-f1ca8258c163).Name"
+                        }
+                    }
+                },
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_GENERAL_OBJ_KILL",
+                        "data": "$($repository f2c03083-8ac4-4daa-82b2-f1ca8258c163).Name"
+                    }
+                },
+                "TargetConditions": [
+                    {
+                        "Type": "disguise",
+                        "KillMethod": "",
+                        "ObjectiveId": "dbd6e6a9-4d9a-4174-ba78-718663b7a147",
+                        "RepositoryId": "b838226d-5fbf-4b5d-8e5f-98e5c8ddc1f2",
+                        "HardCondition": false
+                    },
+                    {
+                        "Type": "killmethod",
+                        "KillMethod": "explosive",
+                        "ObjectiveId": "62792a21-46a3-43fa-8a8b-217ae47ea9d8",
+                        "RepositoryId": "3f9cf03f-b84f-4419-b831-4704cff9775c",
+                        "HardCondition": false
+                    }
+                ]
+            },
+            {
+                "Id": "dbd6e6a9-4d9a-4174-ba78-718663b7a147",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                                                ]
+                                            },
+                                            {
+                                                "$eq": [
+                                                    "$Value.OutfitRepositoryId",
+                                                    "b838226d-5fbf-4b5d-8e5f-98e5c8ddc1f2"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "62792a21-46a3-43fa-8a8b-217ae47ea9d8",
+                "Type": "statemachine",
+                "Category": "secondary",
+                "Definition": {
+                    "Scope": "Hit",
+                    "States": {
+                        "Start": {
+                            "Kill": [
+                                {
+                                    "Condition": {
+                                        "$and": [
+                                            {
+                                                "$eq": [
+                                                    "$Value.RepositoryId",
+                                                    "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                                                ]
+                                            },
+                                            {
+                                                "$any": {
+                                                    "?": {
+                                                        "$eq": [
+                                                            "$.#",
+                                                            "explosive"
+                                                        ]
+                                                    },
+                                                    "in": [
+                                                        "$Value.KillMethodBroad",
+                                                        "$Value.KillMethodStrict"
+                                                    ]
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    "Transition": "Success"
+                                },
+                                {
+                                    "Condition": {
+                                        "$eq": [
+                                            "$Value.RepositoryId",
+                                            "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                                        ]
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ]
+                        }
+                    },
+                    "Context": {
+                        "Targets": [
+                            "f2c03083-8ac4-4daa-82b2-f1ca8258c163"
+                        ]
+                    }
+                }
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942",
+                "Type": "statemachine",
+                "Image": "images/contractconditions/condition_contrac_time_limit.jpg",
+                "Category": "secondary",
+                "OnActive": {
+                    "IfInProgress": {
+                        "State": "Completed"
+                    }
+                },
+                "Definition": {
+                    "Scope": "session",
+                    "States": {
+                        "Start": {
+                            "IntroCutEnd": [
+                                {
+                                    "Transition": "TimerRunning"
+                                }
+                            ]
+                        },
+                        "TimerRunning": {
+                            "$timer": [
+                                {
+                                    "Condition": {
+                                        "$after": 317.94488525390625
+                                    },
+                                    "Transition": "Failure"
+                                }
+                            ],
+                            "exit_gate": [
+                                {
+                                    "Transition": "Success"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "HUDTemplate": {
+                    "display": {
+                        "$loc": {
+                            "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                            "data": "$formatstring 05:17"
+                        }
+                    }
+                },
+                "BriefingName": "$loc UI_CONTRACT_UGC_TIME_LIMIT_NAME",
+                "BriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 05:17"
+                    }
+                },
+                "ObjectiveType": "custom",
+                "LongBriefingText": {
+                    "$loc": {
+                        "key": "UI_CONTRACT_UGC_TIME_LIMIT_SECONDARY_DESC",
+                        "data": "$formatstring 05:17"
+                    }
+                },
+                "CombinedDisplayInHud": true
+            }
+        ],
+        "GameChangers": [
+            "1f8f0b8b-1f65-4d6c-a2f4-fc8adffa394a",
+            "8618ebaa-f42b-42ce-be20-00d2b0a04897"
+        ]
+    },
+    "Metadata": {
+        "Id": "c3e0e064-4768-4252-91be-bbc9bc4cc656",
+        "Type": "usercreated",
+        "Title": "전 불타입으로 할래요!!!",
+        "Location": "LOCATION_MIAMI",
+        "PublicId": "111829090267",
+        "ScenePath": "assembly:/_pro/scenes/missions/miami/scene_flamingo.entity",
+        "TileImage": "$($repository f2c03083-8ac4-4daa-82b2-f1ca8258c163).Image",
+        "Description": "마을 밖은 위험하단다 이 아이들 중 하나를 데려가렴 - 불타입 편\r- 불타입은 풀타입에 효과적!!\r\r(화염,폭발등의 암살 방법만 인정 됩니다)",
+        "GameVersion": "8.26.0.0",
+        "IsPublished": true,
+        "Entitlements": [
+            "LOCATION_MIAMI"
+        ],
+        "CreatorUserId": "b4ed3f1f-e0e5-405a-9b0a-47072a573a88",
+        "ServerVersion": "8.26.0.96",
+        "CreationTimestamp": "2026-11-04T07:42:38.630365Z",
+        "GroupObjectiveDisplayOrder": [
+            {
+                "Id": "9aebe278-bcff-45ef-8ad2-f6dc288a7cfb"
+            },
+            {
+                "Id": "dbd6e6a9-4d9a-4174-ba78-718663b7a147"
+            },
+            {
+                "Id": "62792a21-46a3-43fa-8a8b-217ae47ea9d8"
+            },
+            {
+                "Id": "1a596216-381e-4592-9798-26f156973942"
+            }
+        ]
+    },
+    "UserData": {}
+}
